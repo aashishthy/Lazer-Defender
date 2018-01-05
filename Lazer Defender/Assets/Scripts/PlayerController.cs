@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour {
 	public float padding = 1f;
 	public float projectileSpeed = 0f;
 	public float fireRate = 0.2f;
+	public float health = 250f;
+	public AudioClip fireSound;
 
 	public GameObject projectile;
 
@@ -25,8 +27,10 @@ public class PlayerController : MonoBehaviour {
 
 	void Fire()
 	{
-		GameObject lazerBeam = Instantiate(projectile, transform.position, Quaternion.identity) as GameObject;
+		Vector3 start = transform.position + new Vector3(0, 1, 0);
+		GameObject lazerBeam = Instantiate(projectile, start, Quaternion.identity) as GameObject;
 		lazerBeam.GetComponent<Rigidbody2D>().velocity = new Vector3(0, projectileSpeed, 0);
+		AudioSource.PlayClipAtPoint(fireSound, Camera.main.transform.position);
 	}
 
 	// Update is called once per frame
@@ -56,4 +60,23 @@ public class PlayerController : MonoBehaviour {
 		transform.position = new Vector3(newX, transform.position.y, transform.position.z);
 
 	}
+
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
+		Debug.Log("Player Hit");
+		Projectile missile = collision.gameObject.GetComponent<Projectile>();
+		if (missile)
+		{
+			health -= missile.GetDamage();
+			missile.Hit();
+			if (health <= 0)
+			{
+				LevelManager manager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+				manager.LoadLevel("End Menu");
+				Destroy(gameObject);
+			}
+		}
+
+	}
+
 }

@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class LevelManager : MonoBehaviour {
 
 	public static int Lives;
+	public static int Score = 0 ;
 
 	public void LoadLevel(string name)
 	{
@@ -20,6 +21,7 @@ public class LevelManager : MonoBehaviour {
 
 	public void LoadNextLevel()
 	{
+		Score = ScoreKeeper.sum;
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 	}
 

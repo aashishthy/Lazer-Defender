@@ -8,17 +8,13 @@ public class EnemySpawner : MonoBehaviour {
 	public float width = 10f;
 	public float height = 5f;
 	public float speed = 5f;
+	public float spawnDelay = 0.5f;
 
 	private bool movingRight = true;
 	private float minX, maxX;
 
 	// Use this for initialization
 	void Start () {
-		foreach (Transform child in transform)
-		{
-			GameObject enemy = Instantiate(enemyPrefab, child.transform.position, Quaternion.identity) as GameObject;
-			enemy.transform.parent = child;
-		}
 
 		float distanceToCamera = transform.position.z - Camera.main.transform.position.z;
 		Vector3 leftBoundary = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, distanceToCamera));
@@ -26,7 +22,33 @@ public class EnemySpawner : MonoBehaviour {
 		minX = leftBoundary.x;
 		maxX = rightBoundary.x;
 
+		SpawnUntilFull();
+
 	}
+
+	void SpawnEnemies()
+	{
+		foreach (Transform child in transform)
+		{
+			GameObject enemy = Instantiate(enemyPrefab, child.transform.position, Quaternion.identity) as GameObject;
+			enemy.transform.parent = child;
+		}
+	}
+
+	void SpawnUntilFull()
+	{
+		Transform freePosition = NextFreePosition();
+		if (freePosition)
+		{
+			GameObject enemy = Instantiate(enemyPrefab, freePosition.position, Quaternion.identity) as GameObject;
+			enemy.transform.parent = freePosition;
+		}
+		if (NextFreePosition())
+		{
+			Invoke("SpawnUntilFull", spawnDelay);
+		}
+	}
+
 
 	public void OnDrawGizmos()
 	{
@@ -52,5 +74,36 @@ public class EnemySpawner : MonoBehaviour {
 			movingRight = false;
 		}
 
+		if(AllMembersDead())
+		{
+			Debug.Log("Empty Formation");
+			LevelManager manager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+			manager.LoadNextLevel();
+		}
+
 	}
+
+	
+
+	bool AllMembersDead()
+	{
+		foreach(Transform childPositionGameObject in transform)
+		{
+			if(childPositionGameObject.childCount > 0)
+				return false;
+		}
+		return true;
+	}
+
+	Transform NextFreePosition()
+	{
+		foreach(Transform childPositionGameObject in transform)
+		{
+			if (childPositionGameObject.childCount == 0)
+				return childPositionGameObject;
+		}
+		return null;		
+	}
+
+
 }

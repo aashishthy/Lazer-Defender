@@ -13,10 +13,10 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
+  - Friendlies
+  - FriendlyProjectile
+  - Enemies
+  - EnemyProjectile
   - 
   - 
   - 
@@ -40,4 +40,19 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: EnemyProjectiles
+    uniqueID: 1349935985
+    locked: 0
+  - name: Enemies
+    uniqueID: 999502741
+    locked: 0
+  - name: PlayerProjectiles
+    uniqueID: 16116897
+    locked: 0
+  - name: PlayerShip
+    uniqueID: 4074666177
+    locked: 0
+  - name: Explosion
+    uniqueID: 2659702039
     locked: 0

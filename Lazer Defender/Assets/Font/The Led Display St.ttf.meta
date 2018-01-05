@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 7ca9c46af03b8ec46b7fb9d9a1ea1bf8
+timeCreated: 1515139134
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: The Led Display St
+  fontNames:
+  - The Led Display St
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
